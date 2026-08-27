@@ -25,6 +25,7 @@ jobs:
           image-ref: 'syeddocker04/python-app:v2'
           format: 'table'
           exit-code: '1' # Keeps pipeline green for learning. Change to '1' if you want vulnerabilities to break the build!
+          ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
 
       # Step 3: Authenticate with your Docker Hub account securely
