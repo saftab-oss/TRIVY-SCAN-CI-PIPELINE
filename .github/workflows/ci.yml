@@ -4,7 +4,7 @@ on:
     branches:
       - main
 env:
-  IMAGE_TAG: syeddocker04/python-app:v6
+  IMAGE_TAG: syeddocker04/python-app:v9
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
