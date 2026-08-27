@@ -22,7 +22,7 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@v0.36.0
         with:
-          image-ref: 'syeddocker04/python-app:v2'
+          image-ref: 'syeddocker04/python-app:v5'
           format: 'table'
           exit-code: '1' # Keeps pipeline green for learning. Change to '1' if you want vulnerabilities to break the build!
           ignore-unfixed: true
