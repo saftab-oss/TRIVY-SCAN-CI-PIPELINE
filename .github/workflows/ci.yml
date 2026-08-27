@@ -1,41 +1,36 @@
 name: CI to Docker Hub with Trivy Scan
-
 on:
   push:
     branches:
       - main
-
+env:
+  IMAGE_TAG: syeddocker04/python-app:v6
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
 
-      # Step 1: Build the image inside the cloud runner first
       - name: Build local image for scanning
         run: |
-          docker build -t syeddocker04/python-app:v5 .
+          docker build -t ${{ env.IMAGE_TAG }} .
 
-      # Step 2: Use the official Trivy action to scan our built layers
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@v0.36.0
         with:
-          image-ref: 'syeddocker04/python-app:v5'
+          image-ref: ${{ env.IMAGE_TAG }}
           format: 'table'
-          exit-code: '1' # Keeps pipeline green for learning. Change to '1' if you want vulnerabilities to break the build!
+          exit-code: '1'
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
 
-      # Step 3: Authenticate with your Docker Hub account securely
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-      # Step 4: Final push to the cloud registry
       - name: Push Docker image
         run: |
-          docker push syeddocker04/python-app:v5
+          docker push ${{ env.IMAGE_TAG }}
